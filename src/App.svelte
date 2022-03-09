@@ -6,6 +6,7 @@
     let image = '';
     let description = '';
     let formState = 'empty';
+    let createdContacts = [];
 
     function addCard() {
         if (
@@ -17,6 +18,23 @@
             formState = 'invalid';
             return;
         }
+        // This will not trigger an update
+        // createdContacts.push({
+        //     name: name,
+        //     jobTitle: title,
+        //     imageUrl: image,
+        //     desc: description,
+        // });
+        // so we need to use the equal sign in order for the contact card to show
+        createdContacts = [
+            ...createdContacts, // this is to add the existing createdContacts
+            {
+                name: name,
+                jobTitle: title,
+                imageUrl: image,
+                desc: description,
+            },
+        ];
         formState = 'valid';
     }
 </script>
@@ -41,11 +59,20 @@
 </div>
 
 <button on:click={addCard}>Add Card</button>
-{#if formState === 'valid'}
-    <ContactCard userName={name} jobTitle={title} {description} userImage={image} />
-{:else if formState === 'invalid'}
+{#if formState === 'invalid'}
     <p>Invalid input.</p>
+{:else}
+    <p>Please enter some data and Hit the button!</p>
 {/if}
+
+{#each createdContacts as contact}
+    <ContactCard
+        userName={contact.name}
+        jobTitle={contact.jobTitle}
+        description={contact.desc}
+        userImage={contact.imageUrl}
+    />
+{/each}
 
 <style>
     #form {
