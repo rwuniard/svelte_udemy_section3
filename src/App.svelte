@@ -71,7 +71,7 @@
     <button on:click|preventDefault={addCard}>Add Card</button>
 </form>
 
-<button on:click={deleteFirst}>Delete First</button>
+<button on:click={() => (createdContacts = createdContacts.slice(1))}>Delete First</button>
 <button on:click={deleteLast}>Delete Last</button>
 
 {#if formState === 'invalid'}
